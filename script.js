@@ -2,14 +2,9 @@ const GameBoard = (() => {
   const gameBoard = [];
   for (let i = 0; i <= 8; i++) {
     gameBoard[i] = `${i}`;
-    //   .addEventListener("click", () => {
-    //     console.log(`button ${i} pressed`);
-    //   });
   }
-  console.log(gameBoard);
   return gameBoard;
 })();
-console.log(GameBoard);
 
 const playGame = () => {
   // Factory Function to create a new player
@@ -30,19 +25,24 @@ const playGame = () => {
 
   const buttonClick = (() => {
     for (let i = 0; i <= 8; i++) {
-      document.querySelector(`#space-${i}`).addEventListener("click", () => {
-        if (playPiece === "X") {
-          playPiece = "O";
-          document.querySelector(`#space-${i}`).textContent = "X";
-          GameBoard[i] = "X";
-          testWin();
-        } else {
-          playPiece = "X";
-          document.querySelector(`#space-${i}`).textContent = "O";
-          GameBoard[i] = "O";
-          testWin();
-        }
-      });
+      let button = document.getElementById(`space-${i}`);
+      button.addEventListener(
+        "click",
+        () => {
+          if (playPiece === "X") {
+            playPiece = "O";
+            button.textContent = "X";
+            GameBoard[i] = "X";
+            testWin();
+          } else {
+            playPiece = "X";
+            button.textContent = "O";
+            GameBoard[i] = "O";
+            testWin();
+          }
+        },
+        { once: true }
+      );
     }
   })();
 
@@ -58,11 +58,14 @@ const playGame = () => {
       (GameBoard[1] === GameBoard[4] && GameBoard[1] === GameBoard[7]) ||
       (GameBoard[2] === GameBoard[5] && GameBoard[2] === GameBoard[8])
     ) {
-      console.log("Game Won");
+      console.log(`${playPiece} Won`);
     }
   }
 };
 
-// Add a variable that updates - when even is X, when odd is O
-// Make it so on button press the text content updates to X/O, removes the button listener (might need to move this all down into the game)
-//
+// Add start and end button
+// Make it so you can't play on someone else's move
+// Output who won and end the game
+// Update the score
+// Add a score counter
+// Change the design to make it look good
