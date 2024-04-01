@@ -3,29 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic Tac Toe</title>
+    <title>Noughts & Crosses</title>
     <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
     <script src="script.js" defer></script>
-    <button id="start-button">Start</button>
-    <button id="reset-button">Reset</button>
+    <h1>Noughts and Crosses</h1>
+    <div id="control-buttons">
+        <button id="start-button" class="control">Start</button>
+        <button id="reset-button" class="control">Reset</button>
+    </div>
     <table>
         <tr>
-            <td><button id="space-0"></button></td>
-            <td><button id="space-1"></button></td>
-            <td><button id="space-2"></button></td>
+            <td class="bottom right"><button id="space-0" class="space"></button></td>
+            <td class="bottom right"><button id="space-1" class="space"></button></td>
+            <td class="bottom"><button id="space-2" class="space"></button></td>
         </tr>
         <tr>
-            <td><button id="space-3"></button></td>
-            <td><button id="space-4"></button></td>
-            <td><button id="space-5"></button></td>
+            <td class="bottom right"><button id="space-3" class="space"></button></td>
+            <td class="bottom right"><button id="space-4" class="space"></button></td>
+            <td class="bottom"><button id="space-5" class="space"></button></td>
         </tr>
         <tr>
-            <td><button id="space-6"></button></td>
-            <td><button id="space-7"></button></td>
-            <td><button id="space-8"></button></td>
+            <td class="right"><button id="space-6" class="space"></button></td>
+            <td class="right"><button id="space-7" class="space"></button></td>
+            <td><button id="space-8" class="space"></button></td>
         </tr>
     </table>
+    <p id="turn-announcer"></p>
 </body>
 </html>
