@@ -112,5 +112,3 @@ const startGame = (() => {
     playGame();
   });
 })();
-
-// Make it so that test win comes before updating the bottom bit - tough as want to update with the correct turn
