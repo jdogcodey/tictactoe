@@ -25,33 +25,28 @@ const startGame = (() => {
     const buttonClick = (() => {
       for (let i = 0; i <= 8; i++) {
         const button = document.getElementById(`space-${i}`);
-        button.addEventListener(
-          "click",
-          () => {
-            if (activePlayer.playPiece === "X") {
-              button.textContent = "X";
-              GameBoard[i] = "X";
-              testWin();
-              activePlayer = players[1];
-              updatePlayerAnnouncer();
-            } else if (activePlayer.playPiece === "O") {
-              button.textContent = "O";
-              GameBoard[i] = "O";
-              testWin();
-              activePlayer = players[0];
-              updatePlayerAnnouncer();
-            }
-          },
-          { once: true }
-        );
+        button.addEventListener("click", () => {
+          if (activePlayer.playPiece === "X") {
+            button.textContent = "X";
+            GameBoard[i] = "X";
+            activePlayer = players[1];
+          } else if (activePlayer.playPiece === "O") {
+            button.textContent = "O";
+            GameBoard[i] = "O";
+            activePlayer = players[0];
+          }
+          button.disabled = true;
+          updatePlayerAnnouncer(`${activePlayer.name}'s turn`);
+          testWin();
+        });
       }
     })();
 
     const turnAnnouncer = document.querySelector(`#turn-announcer`);
-    function updatePlayerAnnouncer() {
-      turnAnnouncer.textContent = `${activePlayer.name}'s turn`;
+    function updatePlayerAnnouncer(text) {
+      turnAnnouncer.textContent = text;
     }
-    updatePlayerAnnouncer();
+    updatePlayerAnnouncer(`${activePlayer.name}'s turn`);
 
     // Win criteria
     function testWin() {
@@ -65,9 +60,19 @@ const startGame = (() => {
         (GameBoard[1] === GameBoard[4] && GameBoard[1] === GameBoard[7]) ||
         (GameBoard[2] === GameBoard[5] && GameBoard[2] === GameBoard[8])
       ) {
-        alert(`${activePlayer.name} wins`);
+        if (activePlayer === players[0]) {
+          activePlayer = players[1];
+        } else if (activePlayer === players[1]) {
+          activePlayer = players[0];
+        }
+        alert(`${activePlayer.name} wins!`);
         delete players[0].playPiece;
         delete players[1].playPiece;
+        activePlayer.addScore();
+        console.log(activePlayer.runningScore());
+        updatePlayerAnnouncer(
+          `${activePlayer.name} score: ${activePlayer.runningScore()}`
+        );
       } else if (
         GameBoard[0] !== `0` &&
         GameBoard[1] !== `1` &&
@@ -84,6 +89,22 @@ const startGame = (() => {
         delete players[1].playPiece;
       }
     }
+    const resetButton = document.getElementById("reset-button");
+    resetButton.addEventListener("click", function () {
+      players[0].playPiece = "X";
+      players[1].playPiece = "O";
+      if (activePlayer === players[0]) {
+        activePlayer = players[1];
+      } else if (activePlayer === players[1]) {
+        activePlayer = players[0];
+      }
+      updatePlayerAnnouncer(`${activePlayer.name}'s turn`);
+      for (let i = 0; i <= 8; i++) {
+        document.getElementById(`space-${i}`).textContent = "";
+        document.getElementById(`space-${i}`).disabled = false;
+        GameBoard[i] = `${i}`;
+      }
+    });
   };
 
   const startButton = document.querySelector("#start-button");
@@ -92,18 +113,4 @@ const startGame = (() => {
   });
 })();
 
-const restart = (() => {
-  const resetButton = document.getElementById("reset-button");
-  resetButton.addEventListener("click", function () {
-    document.querySelector(`#turn-announcer`).textContent = "";
-    for (let i = 0; i <= 8; i++) {
-      document.getElementById(`space-${i}`).textContent = "";
-    }
-  });
-})();
-
-// Add start and end button
-// Output who won and end the game
-// Update the score
-// Add a score counter
-// Change the design to make it look good
+// Make it so that test win comes before updating the bottom bit - tough as want to update with the correct turn
